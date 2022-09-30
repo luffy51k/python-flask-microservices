@@ -5,14 +5,25 @@ from flask import Flask
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 
-db = SQLAlchemy()
+from application.base import app
+from application.database import db
+
+from application.trace import *
+
+
 login_manager = LoginManager()
 
+def configure_database(app):
+    @app.before_first_request
+    def initialize_database():
+        db.create_all()
 
-def create_app():
-    app = Flask(__name__)
-    environment_configuration = os.environ['CONFIGURATION_SETUP']
-    app.config.from_object(environment_configuration)
+    @app.teardown_request
+    def shutdown_session(exception=None):
+        db.session.remove()
+
+
+def create_app(app):
 
     db.init_app(app)
     login_manager.init_app(app)
@@ -22,3 +33,7 @@ def create_app():
         from .user_api import user_api_blueprint
         app.register_blueprint(user_api_blueprint)
         return app
+
+
+app = create_app(app)
+configure_database(app)

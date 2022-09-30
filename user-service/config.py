@@ -10,7 +10,7 @@ if os.path.exists(dotenv_path):
 class Config:
     SECRET_KEY = "mrfrIMEngCl0pAKqIIBS_g"
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-
+    OTLP_ENDPOINT = 'http://10.100.120.188:4318/v1/traces'
 
 class DevelopmentConfig(Config):
     ENV = "development"

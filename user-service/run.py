@@ -2,8 +2,8 @@
 from application import create_app, db
 from application import models
 from flask_migrate import Migrate
+from application import app
 
-app = create_app()
 migrate = Migrate(app, db)
 
 from flask import g
