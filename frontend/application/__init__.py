@@ -4,14 +4,17 @@ import os
 from flask import Flask
 from flask_bootstrap import Bootstrap
 from flask_login import LoginManager
+from application.base import app
+
+from application.trace import *
 
 login_manager = LoginManager()
 bootstrap = Bootstrap()
 UPLOAD_FOLDER = 'application/static/images'
 
 
-def create_app():
-    app = Flask(__name__, static_folder='static')
+def create_app(app):
+    
     app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
     environment_configuration = os.environ['CONFIGURATION_SETUP']
@@ -28,3 +31,5 @@ def create_app():
         app.register_blueprint(frontend_blueprint)
 
         return app
+
+app = create_app(app)

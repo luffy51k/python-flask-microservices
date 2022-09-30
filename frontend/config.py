@@ -11,7 +11,7 @@ if os.path.exists(dotenv_path):
 class Config:
     SECRET_KEY = 'y2BH8xD9pyZhDT5qkyZZRgjcJCMHdQ'
     WTF_CSRF_SECRET_KEY = 'VyOyqv5Fm3Hs3qB1AmNeeuvPpdRqTJbTs5wKvWCS'
-
+    OTLP_ENDPOINT = 'http://10.100.120.188:4318/v1/traces'
 
 class DevelopmentConfig(Config):
     ENV = "development"

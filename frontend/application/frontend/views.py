@@ -6,9 +6,19 @@ from .. import login_manager
 from .api.UserClient import UserClient
 from .api.ProductClient import ProductClient
 from .api.OrderClient import OrderClient
-from flask import render_template, session, redirect, url_for, flash, request
+from flask import render_template, session, redirect, url_for, flash, request, current_app
 
 from flask_login import current_user
+
+# impl opentelemetry
+from opentelemetry import trace
+
+tracer_x = trace.get_tracer(__name__)
+
+def internal_fun():
+    with tracer_x.start_as_current_span("internal_fun"):
+        requests.get('https://google.com/')
+
 
 
 @login_manager.user_loader
@@ -59,6 +69,11 @@ def register():
 
 @frontend_blueprint.route('/login', methods=['GET', 'POST'])
 def login():
+    with tracer_x.start_as_current_span("example-request"):
+            current_app.logger.info('route index')
+        
+    internal_fun()
+    
     if current_user.is_authenticated:
         return redirect(url_for('frontend.home'))
     form = forms.LoginForm()
