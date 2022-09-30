@@ -21,7 +21,7 @@ from application.base import app
 otlp_exporter = OTLPSpanExporter(endpoint=f"{app.config['OTLP_ENDPOINT']}")
 
 # Implement OTLP Tracing
-resource = OTLResource(attributes={"service.name": "flask-tracing-demo"})
+resource = OTLResource(attributes={"service.name": "frontend"})
 tracer = TracerProvider(resource=resource)
 trace.set_tracer_provider(tracer)
 

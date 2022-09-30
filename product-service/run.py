@@ -3,7 +3,8 @@ from application import create_app, db
 from application import models
 from flask_migrate import Migrate
 
-app = create_app()
+from application import app
+
 migrate = Migrate(app, db)
 
 if __name__ == '__main__':
